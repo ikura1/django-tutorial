@@ -10,7 +10,11 @@ def index(request):
 
 
 def detail(request, question_id):
-    return HttpResponse(f"You are looking at question {question_id}.")
+    try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Qustion does not exist")
+    return render(request, "polls/detail.html", {"question": question})
 
 
 def results(request, question_id):
